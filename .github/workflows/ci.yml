@@ -1,0 +1,18 @@
+name: CI
+
+on:
+  pull_request:
+
+jobs:
+  check-scripts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Проверка синтаксиса Bash-скриптов
+        run: |
+          bash -n check_api.sh
+          bash -n analyze_logs.sh
+
+      - name: Тестирование check_api.sh (ожидается код возврата 0)
+        run: ./check_api.sh https://httpbin.org/status/200
